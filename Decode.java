@@ -86,10 +86,13 @@ public class Decode {
             if (k > 0) { // Sum of next k numbers
                 for (int j = 1; j <= k; j++) {
                     sum += code[(i + j) % n]; // Circular index calculation
+                    System.out.println(k);
                 }
             } else { // Sum of previous k numbers
                 for (int j = 1; j <= -k; j++) {
                     sum += code[(i - j + n) % n]; // Circular index for negative k
+                    
+                    System.out.println("negative"+k);
                 }
             }
             
