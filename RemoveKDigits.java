@@ -19,6 +19,49 @@ Input: num = "10", k = 2
 Output: "0"
 Explanation: Remove all the digits from the number and it is left with nothing which is 0.
  */
-public class RemoveKDigits {
-    
+import java.util.*;
+
+public class RemoveKdigits {
+    public static String removek(String s, int k) {
+        if (s.length() == 0 || s.length() == k) return "0"; // If k equals length, return "0"
+
+        Stack<Character> st = new Stack<>();
+
+        for (char digit : s.toCharArray()) {
+            while (!st.isEmpty() && k > 0 && st.peek() > digit) {
+                st.pop();
+                k--;
+            }
+            st.push(digit);
+        }
+
+        // Remove remaining k digits if needed
+        while (k > 0 && !st.isEmpty()) {
+            st.pop();
+            k--;
+        }
+
+        // Construct the final result
+        StringBuilder sb = new StringBuilder();
+        while (!st.isEmpty()) {
+            sb.append(st.pop());
+        }
+        sb.reverse();
+
+        // Remove leading zeros
+        while (sb.length() > 1 && sb.charAt(0) == '0') {
+            sb.deleteCharAt(0);
+        }
+
+        return sb.length() == 0 ? "0" : sb.toString();
+    }
+
+    public static void main(String[] args) {
+        Scanner scan = new Scanner(System.in);
+        String s = scan.next();
+        int k = scan.nextInt();
+        scan.close();
+        System.out.println(removek(s, k));
+    }
 }
+
