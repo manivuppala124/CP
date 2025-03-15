@@ -35,6 +35,41 @@ Sample Input-2:
 Sample Output-2:
 ----------------
 4 */
+import java.util.*;
+
 public class TotalHammingDistance {
-    
+    public static int totalHammingDistance(int[] nums) {
+        int totalDistance = 0;
+        int n = nums.length;
+
+        // Iterate over 32 bits (since int has 32 bits in Java)
+        for (int bit = 0; bit < 32; bit++) {
+            int countOnes = 0;
+            
+            // Count numbers with a 1 at this bit position
+            for (int num : nums) {
+                countOnes += (num >> bit) & 1;
+            }
+
+            int countZeros = n - countOnes; // Remaining numbers have 0 at this bit position
+            totalDistance += countOnes * countZeros; // Contribution of this bit
+        }
+        
+        return totalDistance;
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();  // Number of elements
+        int[] nums = new int[n];
+
+        for (int i = 0; i < n; i++) {
+            nums[i] = sc.nextInt();
+        }
+
+        System.out.println(totalHammingDistance(nums)); // Output the total Hamming distance
+
+        sc.close();
+    }
 }
+

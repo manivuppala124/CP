@@ -62,3 +62,69 @@ m == grid.length
 n == grid[i].length
 1 <= m, n <= 10
 grid[i][j] is 0, 1, or 2. */
+import java.util.*;
+
+public class RottenOranges {
+    public static int minTimeToRot(int[][] grid) {
+        int rows = grid.length, cols = grid[0].length;
+        Queue<int[]> queue = new LinkedList<>();
+        int freshCount = 0, minutes = 0;
+
+        // Step 1: Add all initially rotten oranges to the queue and count fresh oranges
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                if (grid[i][j] == 2) {
+                    queue.offer(new int[]{i, j});
+                } else if (grid[i][j] == 1) {
+                    freshCount++;
+                }
+            }
+        }
+
+        // Edge Case: If no fresh oranges, return 0
+        if (freshCount == 0) return 0;
+
+        // Step 2: BFS to spread rot
+        int[][] directions = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}}; // Right, Left, Down, Up
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            boolean hasRotten = false;
+
+            for (int i = 0; i < size; i++) {
+                int[] current = queue.poll();
+                int r = current[0], c = current[1];
+
+                for (int[] dir : directions) {
+                    int newRow = r + dir[0], newCol = c + dir[1];
+
+                    if (newRow >= 0 && newRow < rows && newCol >= 0 && newCol < cols
+                        && grid[newRow][newCol] == 1) {
+                        grid[newRow][newCol] = 2; // Rot the fresh orange
+                        queue.offer(new int[]{newRow, newCol});
+                        freshCount--;
+                        hasRotten = true;
+                    }
+                }
+            }
+
+            if (hasRotten) minutes++; // Increase time if any fresh orange rotted
+        }
+
+        // Step 3: Check if any fresh oranges remain
+        return (freshCount == 0) ? minutes : -1;
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int m = sc.nextInt(), n = sc.nextInt();
+        int[][] grid = new int[m][n];
+
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                grid[i][j] = sc.nextInt();
+            }
+        }
+        System.out.println(minTimeToRot(grid));
+        sc.close();
+    }
+}

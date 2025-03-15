@@ -50,35 +50,49 @@ Sample Output-2:
 4
  */
 
-import java.time.LocalDate;
+ import java.util.*;
 
-public class DistinctShapes {
-    public static void main(String[] args) {
-        Integer i=10;
-        Integer j=i;
-        i++;
-        j--;
-        System.out.println(i+" "+j);
-        Double d1=3.0;
-        int i1=3;
-        Double d2=d1.valueOf("3.0d");
-        if(d1==i1){
-System.out.println("equla");
-        }else{
-            System.out.println("no");
-        }
-        Integer x=123;
-        Integer y=x;
-        System.out.println(x==y);
-        y++;
-        System.out.println(x+" "+y);
-        System.out.println(x==y);
-        LocalDate date=LocalDate.now();
-System.out.println(date);
-date=date.plusDays(2);
-System.out.println(date);
-date=date.plusWeeks(1);
-System.out.println(date);
-
-    }
-}
+ public class DistinctShapes {
+     public static int countDistinctShapes(int[][] wall) {
+         int rows = wall.length, cols = wall[0].length;
+         Set<String> uniqueShapes = new HashSet<>();
+         boolean[][] visited = new boolean[rows][cols];
+ 
+         for (int i = 0; i < rows; i++) {
+             for (int j = 0; j < cols; j++) {
+                 if (wall[i][j] == 1 && !visited[i][j]) {
+                     List<String> shape = new ArrayList<>();
+                     dfs(wall, visited, i, j, i, j, shape);
+                     uniqueShapes.add(String.join(",", shape));
+                 }
+             }
+         }
+         return uniqueShapes.size();
+     }
+ 
+     private static void dfs(int[][] wall, boolean[][] visited, int x, int y, int baseX, int baseY, List<String> shape) {
+         int rows = wall.length, cols = wall[0].length;
+         if (x < 0 || y < 0 || x >= rows || y >= cols || wall[x][y] == 0 || visited[x][y]) return;
+ 
+         visited[x][y] = true;
+         shape.add((x - baseX) + "_" + (y - baseY));  // Normalize shape coordinates
+ 
+         int[][] directions = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}}; // Up, Down, Left, Right
+         for (int[] dir : directions) {
+             dfs(wall, visited, x + dir[0], y + dir[1], baseX, baseY, shape);
+         }
+     }
+ 
+     public static void main(String[] args) {
+         Scanner sc = new Scanner(System.in);
+         int M = sc.nextInt(), N = sc.nextInt();
+         int[][] wall = new int[M][N];
+ 
+         for (int i = 0; i < M; i++)
+             for (int j = 0; j < N; j++)
+                 wall[i][j] = sc.nextInt();
+ 
+         System.out.println(countDistinctShapes(wall));
+     }
+ }
+ 

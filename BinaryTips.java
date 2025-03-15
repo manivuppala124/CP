@@ -48,6 +48,41 @@ Explanation:
 15 -> 1111 (4 set bits, 4 is not prime)
 5 numbers have a prime number of set bits.
  */
+import java.util.*;
+
 public class BinaryTips {
     
+    // Function to check if a number is prime
+    public static boolean isPrime(int n) {
+        if (n < 2) return false;
+        for (int i = 2; i * i <= n; i++) {
+            if (n % i == 0) return false;
+        }
+        return true;
+    }
+    
+    // Function to count set bits in binary representation of a number
+    public static int countSetBits(int num) {
+        return Integer.bitCount(num);
+    }
+    
+    public static int countPrimeSetBits(int left, int right) {
+        int count = 0;
+        for (int i = left; i <= right; i++) {
+            int setBits = countSetBits(i);
+            if (isPrime(setBits)) {
+                count++;
+            }
+        }
+        return count;
+    }
+    
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int left = scanner.nextInt();
+        int right = scanner.nextInt();
+        scanner.close();
+        
+        System.out.println(countPrimeSetBits(left, right));
+    }
 }

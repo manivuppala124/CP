@@ -39,6 +39,44 @@ Sample Output-2:
 ----------------
 2
  */
+import java.util.*;
+
 public class ClosedBrackets {
+    public static int minInsertions(String B) {
+        int open = 0, insertions = 0;
+        int i = 0;
+        
+        while (i < B.length()) {
+            if (B.charAt(i) == '[') {
+                open++;
+            } else { // If it's a closing bracket ']'
+                if (i + 1 < B.length() && B.charAt(i + 1) == ']') {
+                    if (open > 0) {
+                        open--; // One pair of '[]' is completed
+                    } else {
+                        insertions++; // Need one extra open bracket
+                    }
+                    i++; // Skip the next ']'
+                } else {
+                    insertions++; // Need one more closing bracket ']'
+                    if (open > 0) {
+                        open--; // One pair is completed
+                    } else {
+                        insertions++; // Need one extra open bracket
+                    }
+                }
+            }
+            i++;
+        }
+        
+        return insertions + 2 * open; // Remaining open brackets need 2 close brackets each
+    }
     
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        String B = scanner.next();
+        scanner.close();
+        
+        System.out.println(minInsertions(B));
+    }
 }

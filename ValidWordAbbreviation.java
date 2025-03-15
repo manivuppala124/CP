@@ -67,6 +67,7 @@ public class ValidWordAbbreviation {
         String s = sc.next();
         String abbr = sc.next();
         System.out.println(isValidAbbreviation(s, abbr));
+        sc.close();
     }
 }
 
