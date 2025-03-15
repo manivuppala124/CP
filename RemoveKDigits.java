@@ -21,7 +21,7 @@ Explanation: Remove all the digits from the number and it is left with nothing w
  */
 import java.util.*;
 
-public class RemoveKdigits {
+public class RemoveKDigits {
     public static String removek(String s, int k) {
         if (s.length() == 0 || s.length() == k) return "0"; // If k equals length, return "0"
 
