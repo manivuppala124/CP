@@ -7,7 +7,7 @@ class preparedStatement3 {
   static final String DB_URL = "jdbc:mysql://localhost/test";
     
   static final String USER = "root";
-  static final String PASS = "root";
+  static final String PASS = "manivuppala124";
      
   public static void main(String[] args) throws SQLException {  
     Connection conn = null;
