@@ -1,0 +1,7 @@
+{
+    "java.project.sourcePaths": [
+        "Chap10/Chap10/jdbc",
+        "Chap10/Chap10",
+        "practicefolder"
+    ]
+}

@@ -25,7 +25,7 @@ class preparedStatement2 {
       int i=pstmt.executeUpdate();  
       System.out.println(i + " record(s) updated");  
       
-      pstmt = conn.prepareStatement("delete from dept where deptno= ?"); 
+      pstmt = conn.prepareStatement("select e.empno,e.ename, d.deptno, d.dname, d.location from emp e join dept d on e.deptno = d.deptno where d.deptno = ?"); 
       pstmt.setInt(1, 50);  
       i=pstmt.executeUpdate();  
       System.out.println(i + " record(s) deleted");   

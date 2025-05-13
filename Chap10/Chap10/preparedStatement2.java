@@ -19,9 +19,10 @@ class preparedStatement2 {
 
       conn = DriverManager.getConnection(DB_URL,USER,PASS);
      
-      pstmt = conn.prepareStatement("update dept set deptno = ? where deptno= ?"); 
-      pstmt.setInt(1, 80);
-      pstmt.setInt(2, 60);
+      // pstmt = conn.prepareStatement("update dept set deptno = ? where deptno= ?"); 
+      // pstmt.setInt(1, 80);
+      // pstmt.setInt(2, 60);
+      
       int i=pstmt.executeUpdate();  
       System.out.println(i + " record(s) updated");  
       
