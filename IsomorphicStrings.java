@@ -42,6 +42,36 @@ Sample Output:
 ----------------------
 False
  */
+import java.util.*;
+
 public class IsomorphicStrings {
-    
+    public static boolean areIsomorphic(String s1, String s2) {
+        if (s1.length() != s2.length()) return false;
+
+        Map<Character, Character> map1 = new HashMap<>();
+        Set<Character> mappedValues = new HashSet<>();
+
+        for (int i = 0; i < s1.length(); i++) {
+            char ch1 = s1.charAt(i);
+            char ch2 = s2.charAt(i);
+
+            if (map1.containsKey(ch1)) {
+                if (map1.get(ch1) != ch2) return false; // inconsistent mapping
+            } else {
+                if (mappedValues.contains(ch2)) return false; // ch2 already mapped to another ch1
+                map1.put(ch1, ch2);
+                mappedValues.add(ch2);
+            }
+        }
+        return true;
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String s1 = sc.next();
+        String s2 = sc.next();
+
+        System.out.println(areIsomorphic(s1, s2));
+    }
 }
+

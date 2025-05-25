@@ -10,6 +10,7 @@ public class Trie {
         }
     }
     public static Node root=new Node();
+    public static int count=0;
     public static void insert(String word){
         Node curr=root;
         for(int i=0;i<word.length();i++){
@@ -21,6 +22,7 @@ public class Trie {
                 curr.children[idx].eow=true;
             }
             curr=curr.children[idx];
+            count++;
         }
     }
     public static boolean search(String key){
@@ -61,14 +63,53 @@ public class Trie {
         }
         return true;
     }
+    public static int countUniqueNodes(Node root){
+        if(root==null){
+            return 0;
+        }
+        int count=0;
+        for(Node child:root.children){
+            if(child!=null){
+                count+=countUniqueNodes(child);
+            }
+        }
+        return count+1;
+    }
+    public static String ans="";
+    public static void longestWord(Node root,StringBuilder temp){
+        if(root==null){
+            return;
+        }
+        for(int i=0;i<26;i++){
+            if(root.children[i]!=null&&root.children[i].eow==true){
+                temp.append((char)(i+'a'));
+                if(temp.length()>ans.length()){
+                    ans=temp.toString();
+                }
+                longestWord(root.children[i], temp);
+                temp.deleteCharAt(temp.length()-1);
+            }
+        }
+    }
     public static void main(String[] args) {
-        String[] words={"i","like","sam","samsung","mobile"};
-        String keyword="ilikesam";
+        // String[] words={"i","like","sam","samsung","mobile"};
+        // String keyword="ilikesam";
+        // for(String word:words){
+        //     insert(word);
+        // }
+        // System.out.println(search("that"));
+        // System.out.println(wordBreak(keyword));
+        // System.out.println(startsWith("moon"));
+        // String word="ababa";
+        // for(int i=0;i<word.length();i++){
+        //     insert(word.substring(i));
+        // }
+        // System.out.println(countUniqueNodes(root));
+        String[] words={"a","app","ap","appl","apply","banana","apple"};
         for(String word:words){
             insert(word);
         }
-        System.out.println(search("that"));
-        System.out.println(wordBreak(keyword));
-        System.out.println(startsWith("moon"));
+        longestWord(root,new StringBuilder());
+        System.out.println(ans);
     }
 }

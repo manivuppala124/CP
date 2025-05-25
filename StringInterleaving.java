@@ -41,6 +41,34 @@ Sample Output-2:
 ----------------
 [12AB, 1A2B, 1AB2, A12B, A1B2, AB12]
  */
-public class InterleavingStrings {
+import java.util.*;
+
+public class StringInterleaving {
     
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String X = sc.next();
+        String Y = sc.next();
+        List<String> result = new ArrayList<>();
+        
+        interleaveStrings(X, Y, 0, 0, "", result);
+        
+        Collections.sort(result); // Optional: to get sorted output
+        System.out.println(result);
+    }
+
+    public static void interleaveStrings(String X, String Y, int i, int j, String path, List<String> result) {
+        if (i == X.length() && j == Y.length()) {
+            result.add(path);
+            return;
+        }
+
+        if (i < X.length()) {
+            interleaveStrings(X, Y, i + 1, j, path + X.charAt(i), result);
+        }
+
+        if (j < Y.length()) {
+            interleaveStrings(X, Y, i, j + 1, path + Y.charAt(j), result);
+        }
+    }
 }

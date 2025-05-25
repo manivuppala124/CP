@@ -35,6 +35,46 @@ Sample Output-2:
 ----------------
 abcd dear
  */
+import java.util.*;
+
 public class FindWordsFollowGivenPattern {
-    
+
+    // Function to encode a word to its pattern like "moon" -> "0 1 1 2"
+    private static String getPattern(String word) {
+        Map<Character, Integer> map = new HashMap<>();
+        StringBuilder pattern = new StringBuilder();
+        int code = 0;
+
+        for (char ch : word.toCharArray()) {
+            if (!map.containsKey(ch)) {
+                map.put(ch, code++);
+            }
+            pattern.append(map.get(ch)).append(" ");`
+        }
+
+        return pattern.toString().trim(); // remove trailing space
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // Read input
+        String[] words = sc.nextLine().split(" ");
+        String patternWord = sc.nextLine().trim();
+
+        String patternCode = getPattern(patternWord);
+        List<String> result = new ArrayList<>();
+
+        for (String word : words) {
+            if (word.length() == patternWord.length() && getPattern(word).equals(patternCode)) {
+                result.add(word);
+            }
+        }
+
+        if (result.isEmpty()) {
+            System.out.println("-1");
+        } else {
+            System.out.println(String.join(" ", result));
+        }
+    }
 }
