@@ -37,5 +37,47 @@ Sample Output:
 ZATNIZGATRGPE
  */
 public class ZigZagKFormRows {
+    public static String convertToZigZag(String str, int k) {
+        if (k == 1) return str;
+        
+        // Create array of StringBuilder for each row
+        StringBuilder[] rows = new StringBuilder[k];
+        for (int i = 0; i < k; i++) {
+            rows[i] = new StringBuilder();
+        }
+        
+        int currentRow = 0;
+        boolean goingDown = true;
+        
+        // Place each character in appropriate row
+        for (char c : str.toCharArray()) {
+            rows[currentRow].append(c);
+            
+            if (goingDown) {
+                currentRow++;
+                if (currentRow == k - 1) {
+                    goingDown = false;
+                }
+            } else {
+                currentRow--;
+                if (currentRow == 0) {
+                    goingDown = true;
+                }
+            }
+        }
+        
+        // Combine all rows to get final result
+        StringBuilder result = new StringBuilder();
+        for (StringBuilder row : rows) {
+            result.append(row);
+        }
+        
+        return result.toString();
+    }
     
+    public static void main(String[] args) {
+        // Test cases
+        System.out.println(convertToZigZag("THISPROBLEMISAWESOME", 4)); // Should print: TOWHLBSMIPEAESM
+        System.out.println(convertToZigZag("ZIGZAGPATTERN", 3)); // Should print: ZATNIZGATRGPE
+    }
 }
