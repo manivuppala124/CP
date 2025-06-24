@@ -18,7 +18,6 @@ import java.util.stream.*;
 
 public class CMSapp {
     public static void main(String[] args) {
-        // Sample data: list of articles
         List<Article> articles = List.of(
             new Article(101, "Alice Smith",   520),
             new Article(102, "Bob Johnson",   330),
@@ -28,27 +27,40 @@ public class CMSapp {
             new Article(106, "Alice Smith",   610)
         );
 
-        //WRITE YOUR CODE HERE
-        
+        Map<String, Double> m = articles.stream()
+            .collect(Collectors.groupingBy(
+                Article::getAuthorName,
+                Collectors.averagingInt(Article::getWordCount)
+            ));
+            
+        Optional<Map.Entry<String, Double>> top = m.entrySet().stream()
+            .max(Map.Entry.comparingByValue());
+
+        top.ifPresentOrElse(
+            entry -> System.out.printf("Top Author: %s (avg words: %.2f)%n",
+                                       entry.getKey(), entry.getValue()),
+            () -> System.out.println("No data available.")
+        );
     }
 }
 
-// Non-public helper class in the same file
 class Article {
-    private final int    articleID;
+    private final int articleID;
     private final String authorName;
-    private final int    wordCount;
+    private final int wordCount;
 
-   //WRITE YOUR CODE HERE
-   Article(int a,String n,int wc){
-       this.articleID=a;
-       this.authorName=n;
-       this.wordCount=wc;
-   }
-   String getAuthorName(){
-       return authorName;
-   }
-   int getWordCount(){
-       return wordCount;
-   }
+    Article(int articleID, String authorName, int wordCount) {
+        this.articleID = articleID;
+        this.authorName = authorName;
+        this.wordCount = wordCount;
+    }
+
+    String getAuthorName() {
+        return authorName;
+    }
+
+    int getWordCount() {
+        return wordCount;
+    }
 }
+ 
