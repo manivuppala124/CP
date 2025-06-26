@@ -13,7 +13,7 @@ class test1 {
 		// .peek(System.out::println)
 		// .sorted()
 		// .forEach(System.out::println);
-    // Stream.of("Australia","India","US","UK","Singapore","Bangladesh")
+    // Stream.of("Australia","India",gi"US","UK","Singapore","Bangladesh")
     // .filter(s->s.length()>4)
     // .sorted()
     // .limit(2)
