@@ -5,14 +5,14 @@ Your mission is to transcribe this dynasty using a method that adheres
 to the following customs:
 
 Royal Inscription:  
-- Each monarch’s unique number is written as their signature on the scroll.
+- Each monarch's unique number is written as their signature on the scroll.
 
 Enclosing Descendants:  
 - If a monarch has offspring, their descendants must be recorded inside parentheses 
-  immediately following the monarch’s number.
+  immediately following the monarch's number.
     - The first-born (or primary heir) is enclosed in its own set of parentheses.
     - If there is a second-born, their number is similarly enclosed, following 
-      the first-born’s parentheses.
+      the first-born's parentheses.
 
 Omitting Redundant Markings:  
 - Empty pairs of parentheses are generally left off the scroll to keep the record neat.
@@ -79,7 +79,31 @@ Sample Output-3:
 import java.util.*;
 class Solution {
     public String tree2str(TreeNode t) {
-        //WRITE YOUR CODE HERE AND RETURN THE STRING
+        if (t == null) {
+            return "";
+        }
+        
+        StringBuilder result = new StringBuilder();
+        result.append(t.val);
+        
+        // If node has no children, return just the value
+        if (t.left == null && t.right == null) {
+            return result.toString();
+        }
+        
+        // Always add left child (even if null, we'll handle it)
+        result.append("(");
+        result.append(tree2str(t.left));
+        result.append(")");
+        
+        // Add right child only if it exists
+        if (t.right != null) {
+            result.append("(");
+            result.append(tree2str(t.right));
+            result.append(")");
+        }
+        
+        return result.toString();
     }
 }
 class TreeNode {

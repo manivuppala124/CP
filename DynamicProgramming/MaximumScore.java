@@ -58,6 +58,29 @@ Pick a number 5 to score 5 points, simultaneously all 4's and 6 are disappeared
 from display. Then, again pick the number 5 to score 5 points.
 And again pick the number 5 to score 5 points. Totally 15 is the score.
  */
+import java.util.*;
+
 public class MaximumScore {
-    
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int N = sc.nextInt();
+        int[] nums = new int[N];
+        for (int i = 0; i < N; i++) nums[i] = sc.nextInt();
+        System.out.println(deleteAndEarn(nums));
+        sc.close();
+    }
+
+    public static int deleteAndEarn(int[] nums) {
+        Map<Integer, Integer> count = new HashMap<>();
+        int max = 0;
+        for (int num : nums) {
+            count.put(num, count.getOrDefault(num, 0) + num);
+            max = Math.max(max, num);
+        }
+        int[] dp = new int[max + 2];
+        for (int i = 1; i <= max; i++) {
+            dp[i] = Math.max(dp[i - 1], dp[i - 2] + count.getOrDefault(i, 0));
+        }
+        return dp[max];
+    }
 }

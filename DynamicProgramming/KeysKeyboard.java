@@ -48,6 +48,25 @@ Explanation:
 We can print at most get 9 N's on console by pressing following key sequence:
 N, N, N, S, C, P, P
  */
+import java.util.*;
+
 public class KeysKeyboard {
-    
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int K = sc.nextInt();
+        System.out.println(maxNs(K));
+        sc.close();
+    }
+
+    public static int maxNs(int K) {
+        if (K <= 6) return K;
+        int[] dp = new int[K + 1];
+        for (int i = 1; i <= K; i++) {
+            dp[i] = i;
+            for (int j = 3; j < i; j++) {
+                dp[i] = Math.max(dp[i], dp[i - j] * (j - 1));
+            }
+        }
+        return dp[K];
+    }
 }

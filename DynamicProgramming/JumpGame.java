@@ -24,6 +24,29 @@ Explanation:
 - Move from planet 0 to planet 1.
 - Move from planet 1 to planet 4 (last planet).
  */
+import java.util.*;
+
 public class JumpGame {
-    
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String[] tokens = sc.nextLine().trim().split(" ");
+        int[] planets = new int[tokens.length];
+        for (int i = 0; i < tokens.length; i++) {
+            planets[i] = Integer.parseInt(tokens[i]);
+        }
+        System.out.println(minJumps(planets));
+        sc.close();
+    }
+
+    public static int minJumps(int[] nums) {
+        int jumps = 0, end = 0, farthest = 0;
+        for (int i = 0; i < nums.length - 1; i++) {
+            farthest = Math.max(farthest, i + nums[i]);
+            if (i == end) {
+                jumps++;
+                end = farthest;
+            }
+        }
+        return jumps;
+    }
 }

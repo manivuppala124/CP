@@ -22,13 +22,13 @@ anti-clockwise order, starting from the main base camp (root).
 The boundary consists of:
 1. The main base camp (root).
 2. The left boundary:
-    - Starts from the root’s left child and follows the leftmost path downwards.
+    - Starts from the root's left child and follows the leftmost path downwards.
     - If a camp has a left connection, follow it.
     - If no left connection exists but a right connection does, follow the right connection.
     - The leftmost leaf camp is NOT included in this boundary.
 3. The leaf camps (i.e., camps with no further connections), ordered from left to right.
 4. The right boundary (in reverse order):
-    - Starts from the root’s right child and follows the rightmost path downwards.
+    - Starts from the root's right child and follows the rightmost path downwards.
     - If a camp has a right connection, follow it.
     - If no right connection exists but a left connection does, follow the left connection.
     - The rightmost leaf camp is NOT included in this boundary.
@@ -74,7 +74,58 @@ import java.util.*;
 class Solution {
     List<Integer> nodes = new ArrayList<>(1000);
     public List<Integer> boundaryOfBinaryTree(TreeNode root) {
-        //WRITE YOUR CODE HERE AND RETURN THE LIST OF NODES
+        if (root == null) return nodes;
+        
+        // Add root
+        nodes.add(root.val);
+        
+        // Add left boundary (excluding root and leftmost leaf)
+        addLeftBoundary(root.left);
+        
+        // Add leaves
+        addLeaves(root.left);
+        addLeaves(root.right);
+        
+        // Add right boundary in reverse (excluding root and rightmost leaf)
+        addRightBoundary(root.right);
+        
+        return nodes;
+    }
+    
+    private void addLeftBoundary(TreeNode node) {
+        if (node == null || (node.left == null && node.right == null)) return;
+        
+        nodes.add(node.val);
+        
+        if (node.left != null) {
+            addLeftBoundary(node.left);
+        } else {
+            addLeftBoundary(node.right);
+        }
+    }
+    
+    private void addLeaves(TreeNode node) {
+        if (node == null) return;
+        
+        if (node.left == null && node.right == null) {
+            nodes.add(node.val);
+            return;
+        }
+        
+        addLeaves(node.left);
+        addLeaves(node.right);
+    }
+    
+    private void addRightBoundary(TreeNode node) {
+        if (node == null || (node.left == null && node.right == null)) return;
+        
+        if (node.right != null) {
+            addRightBoundary(node.right);
+        } else {
+            addRightBoundary(node.left);
+        }
+        
+        nodes.add(node.val);
     }
 }
 

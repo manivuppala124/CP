@@ -41,5 +41,34 @@ Explanation:
 In the above structure,  6 units of water (w represents the water in the 
 structure) can be stored. */
 public class BuildingBlocks {
-    
+    public static void main(String[] args) {
+        java.util.Scanner sc = new java.util.Scanner(System.in);
+        String[] tokens = sc.nextLine().trim().split(" ");
+        int[] heights = new int[tokens.length];
+        for (int i = 0; i < tokens.length; i++) {
+            heights[i] = Integer.parseInt(tokens[i]);
+        }
+        System.out.println(trapWater(heights));
+        sc.close();
+    }
+
+    public static int trapWater(int[] height) {
+        if (height == null || height.length == 0) return 0;
+        int n = height.length;
+        int[] leftMax = new int[n];
+        int[] rightMax = new int[n];
+        leftMax[0] = height[0];
+        for (int i = 1; i < n; i++) {
+            leftMax[i] = Math.max(leftMax[i-1], height[i]);
+        }
+        rightMax[n-1] = height[n-1];
+        for (int i = n-2; i >= 0; i--) {
+            rightMax[i] = Math.max(rightMax[i+1], height[i]);
+        }
+        int water = 0;
+        for (int i = 0; i < n; i++) {
+            water += Math.min(leftMax[i], rightMax[i]) - height[i];
+        }
+        return water;
+    }
 }

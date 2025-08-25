@@ -49,6 +49,25 @@ Constraints:
 - 1 <= k <= 10^5 
 - The result will always be within the range of a 32-bit signed integer.
  */
+import java.util.*;
+
 public class PaintPots {
-    
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int N = sc.nextInt(), K = sc.nextInt();
+        System.out.println(numWays(N, K));
+        sc.close();
+    }
+
+    public static int numWays(int n, int k) {
+        if (n == 0) return 0;
+        if (n == 1) return k;
+        int same = 0, diff = k, total = k;
+        for (int i = 2; i <= n; i++) {
+            same = diff;
+            diff = total * (k - 1);
+            total = same + diff;
+        }
+        return total;
+    }
 }

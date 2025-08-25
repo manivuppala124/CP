@@ -1,8 +1,10 @@
 {
     "java.project.sourcePaths": [
         "practicefolder",
+        "Streams",
+        "Day12",
         "Chap10/Chap10/jdbc",
         "Chap10/Chap10",
-        "Streams"
+        "Day13_Inclass"
     ]
 }

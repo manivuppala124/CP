@@ -53,8 +53,45 @@ class TreeNode {
     }
 }
 class Solution {
+    private long maxProduct = 0;
+    private long totalSum = 0;
+    private static final int MOD = 1000000007;
+    
     public int maxProduct(TreeNode root) {
-        //WRITE YOUR CODE HERE AND RETURN THE MAXIMUM PRODUCT
+        // First, calculate the total sum of the tree
+        totalSum = calculateSum(root);
+        
+        // Find the maximum product by trying to split at each edge
+        findMaxProduct(root);
+        
+        return (int) (maxProduct % MOD);
+    }
+    
+    private long calculateSum(TreeNode node) {
+        if (node == null) return 0;
+        return node.val + calculateSum(node.left) + calculateSum(node.right);
+    }
+    
+    private long findMaxProduct(TreeNode node) {
+        if (node == null) return 0;
+        
+        // Calculate sum of current subtree
+        long leftSum = findMaxProduct(node.left);
+        long rightSum = findMaxProduct(node.right);
+        long currentSum = node.val + leftSum + rightSum;
+        
+        // Try splitting at current node's edges
+        if (node.left != null) {
+            long otherSum = totalSum - leftSum;
+            maxProduct = Math.max(maxProduct, leftSum * otherSum);
+        }
+        
+        if (node.right != null) {
+            long otherSum = totalSum - rightSum;
+            maxProduct = Math.max(maxProduct, rightSum * otherSum);
+        }
+        
+        return currentSum;
     }
 }
 public class MaxProduct {

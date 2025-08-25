@@ -45,6 +45,32 @@ Sample Output-3:
 Constraints:  
 -  1 <= artifacts.length <= 100 
 -  0 <= artifacts[i] <= 1000  */
+import java.util.*;
+
 public class TombLoot {
-    
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String[] tokens = sc.nextLine().trim().split(" ");
+        int[] artifacts = new int[tokens.length];
+        for (int i = 0; i < tokens.length; i++) {
+            artifacts[i] = Integer.parseInt(tokens[i]);
+        }
+        System.out.println(rob(artifacts));
+        sc.close();
+    }
+
+    public static int rob(int[] nums) {
+        if (nums.length == 1) return nums[0];
+        return Math.max(robLinear(nums, 0, nums.length - 2), robLinear(nums, 1, nums.length - 1));
+    }
+
+    private static int robLinear(int[] nums, int start, int end) {
+        int prev = 0, curr = 0;
+        for (int i = start; i <= end; i++) {
+            int temp = Math.max(curr, prev + nums[i]);
+            prev = curr;
+            curr = temp;
+        }
+        return curr;
+    }
 }

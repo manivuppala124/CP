@@ -55,10 +55,74 @@ class TreeNode {
 
 class Solution {
     public int secondHighest(TreeNode root) {
-       
+        // We need to find the second highest value among all nodes in the tree.
+        // If all values are the same or only one unique value, return -2.
+
+        // Use a set to collect all unique values (excluding -1/nulls)
+        Set<Integer> unique = new HashSet<>();
+        collectValues(root, unique);
+
+        // Remove -1 if present (since -1 means null)
+        unique.remove(-1);
+
+        if (unique.size() < 2) {
+            return -2;
+        }
+
+        // Find the highest and second highest
+        int max = Integer.MIN_VALUE;
+        int second = Integer.MIN_VALUE;
+        for (int v : unique) {
+            if (v > max) {
+                second = max;
+                max = v;
+            } else if (v > second && v < max) {
+                second = v;
+            }
+        }
+        return second;
+
     }
 
-    
+    private void collectValues(TreeNode node, Set<Integer> set) {
+        if (node == null) return;
+        set.add(node.val);
+        collectValues(node.left, set);
+        collectValues(node.right, set);
+    }
+}
+
+class Main {
+    public static TreeNode buildTree(List<Integer> data) {
+        if (data.isEmpty() || data.get(0) == -1) {
+            return null;
+        }
+        
+        TreeNode root = new TreeNode(data.get(0));
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+        
+        int i = 1;
+        while (!queue.isEmpty() && i < data.size()) {
+            TreeNode current = queue.poll();
+            
+            // Left child
+            if (i < data.size() && data.get(i) != -1) {
+                current.left = new TreeNode(data.get(i));
+                queue.offer(current.left);
+            }
+            i++;
+            
+            // Right child
+            if (i < data.size() && data.get(i) != -1) {
+                current.right = new TreeNode(data.get(i));
+                queue.offer(current.right);
+            }
+            i++;
+        }
+        
+        return root;
+    }
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
